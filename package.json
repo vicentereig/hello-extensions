@@ -4,10 +4,14 @@
   "type": "module",
   "scripts": {
     "watch": "bun build ./src/*.ts ./src/sites/*.ts ./src/*.json ./src/assets/* ./src/popup/* --outdir ./build --root ./src --sourcemap=inline --asset-naming='./[dir]/[name].[ext]' --loader .json:file --watch ",
-    "build": "bun build ./src/*.ts ./src/sites/*.ts ./src/*.json ./src/assets/* ./src/popup/* --outdir ./build --root ./src --sourcemap=inline --asset-naming='./[dir]/[name].[ext]' --loader .json:file"
+    "build": "bun build ./src/*.ts ./src/sites/*.ts ./src/*.json ./src/assets/* ./src/popup/* --outdir ./build --root ./src --sourcemap=inline --asset-naming='./[dir]/[name].[ext]' --loader .json:file",
+    "css": "bun run tailwindcss -i ./src/style.css -o ./build/style.css --watch",
+    "dev": "bun run-p watch css"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "npm-run-all2": "^6.2.3",
+    "tailwindcss": "^3.4.11"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
