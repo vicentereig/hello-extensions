@@ -1,7 +1,11 @@
 {
   "name": "contact-scraper",
-  "module": "index.ts",
+  "module": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "watch": "bun build ./src/*.ts ./src/sites/*.ts ./src/*.json ./src/assets/* ./src/popup/* --outdir ./build --root ./src --sourcemap=inline --asset-naming='./[dir]/[name].[ext]' --loader .json:file --watch ",
+    "build": "bun build ./src/*.ts ./src/sites/*.ts ./src/*.json ./src/assets/* ./src/popup/* --outdir ./build --root ./src --sourcemap=inline --asset-naming='./[dir]/[name].[ext]' --loader .json:file"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
