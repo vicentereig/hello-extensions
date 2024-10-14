@@ -3,23 +3,28 @@
   "name": "Hello Extensions",
   "description": "Base Level Extension",
   "version": "1.0",
-  "action": {
-    "default_popup": "popup/hello.html",
-    "default_icon": "assets/hello_extension.png"
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
   },
+  "action": {
+    "default_title": "Click to open panel"
+  },
+  "permissions": [ "sidePanel", "tabs",
+    "activeTab", "storage", "scripting"],
+  "side_panel": {
+    "default_path": "sidepanel/github.html"
+  },
+  "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {
       "js": ["sites/github.js"],
-      "matches": [
-        "*://github.com/*","*://*.github.com/*"
-      ],
+      "matches": ["<all_urls>"],
       "runAt": "document_start"
     }
   ],
   "web_accessible_resources": [{
     "resources": ["components.js", "assets/*"],
-    "matches": [
-      "*://github.com/*","*://*.github.com/*"
-    ]
+    "matches": ["<all_urls>"]
   }]
 }
