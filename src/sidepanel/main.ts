@@ -1,5 +1,13 @@
 import { html, render, LitElement } from 'lit'
 
+console.log('Installing Link Receiver')
+
+chrome.runtime.sendMessage({ action: 'getLinks' }, (response) => {
+    if (response && response.links) {
+        renderLinks(response.links);  // Render the links in the side panel
+    }
+});
+
 // Custom Lit component to display individual links
 class LinkItem extends LitElement {
     static properties = {
@@ -47,19 +55,13 @@ class LinkItem extends LitElement {
 customElements.define('link-item', LinkItem);
 // Function to render the links
 function renderLinks(links) {
+    console.log('rendering ui')
     const linkItems = links.map(link => html`<link-item .link=${link}></link-item>`);
     render(html`${linkItems}`, document.getElementById('link-list'));
 }
-console.log('installed worker code')
-// Listen for messages from the content script
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log('receiving message', message);
-    if (message.action === 'sendLinks') {
-        const links = message.links;
-        renderLinks(links);  // Render the links in the side panel
-        sendResponse({ status: 'Links received and rendered' });
-    }
-});
+
+
+
 
 // Handle syncing all unsynced links when the "Sync All" button is clicked
 document.getElementById('sync-all').addEventListener('click', async () => {
