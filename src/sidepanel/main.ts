@@ -2,8 +2,10 @@ import { html, render, LitElement } from 'lit'
 
 console.log('Installing Link Receiver')
 
+console.log('requesting links to reliable storage');
 chrome.runtime.sendMessage({ action: 'getLinks' }, (response) => {
     if (response && response.links) {
+        console.log(`Getting ${response.links.length} to show`);
         renderLinks(response.links);  // Render the links in the side panel
     }
 });
