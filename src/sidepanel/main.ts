@@ -5,7 +5,7 @@ console.log('Installing Link Receiver')
 console.log('requesting links to reliable storage');
 chrome.runtime.sendMessage({ action: 'getLinks' }, (response) => {
     if (response && response.links) {
-        console.log(`Getting ${response.links.length} to show`);
+        console.log(`Rendering ${response.links.length} links`);
         renderLinks(response.links);  // Render the links in the side panel
     }
 });
@@ -57,7 +57,7 @@ class LinkItem extends LitElement {
 customElements.define('link-item', LinkItem);
 // Function to render the links
 function renderLinks(links) {
-    console.log('rendering ui')
+    console.log('Updating UI...')
     const linkItems = links.map(link => html`<link-item .link=${link}></link-item>`);
     render(html`${linkItems}`, document.getElementById('link-list'));
 }
