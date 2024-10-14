@@ -2,13 +2,23 @@ import { html, render, LitElement } from 'lit'
 
 console.log('Installing Link Receiver')
 
-console.log('requesting links to reliable storage');
+console.log('requesting links to reliable storage when the side panel loads');
 chrome.runtime.sendMessage({ action: 'getLinks' }, (response) => {
     if (response && response.links) {
         console.log(`Rendering ${response.links.length} links`);
         renderLinks(response.links);  // Render the links in the side panel
     }
 });
+
+// rendering ui when the user loads new links
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'render' && message.links) {
+        console.log(`Rendering ${message.links.length} links`);
+        renderLinks(message.links);
+        sendResponse({status: `${message.links.length} rendered`})
+    }
+});
+
 
 // Custom Lit component to display individual links
 class LinkItem extends LitElement {
@@ -58,8 +68,13 @@ customElements.define('link-item', LinkItem);
 // Function to render the links
 function renderLinks(links) {
     console.log('Updating UI...')
-    const linkItems = links.map(link => html`<link-item .link=${link}></link-item>`);
-    render(html`${linkItems}`, document.getElementById('link-list'));
+    const linkItems = links.map(link => html`
+        <link-item .link=${link}></link-item>
+    `);
+    render(html`
+        <p>${links.length} analyzed</p>
+        ${linkItems}
+    `, document.getElementById('link-list'));
 }
 
 

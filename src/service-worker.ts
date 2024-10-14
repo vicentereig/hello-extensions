@@ -15,6 +15,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'sendLinks') {
         collectedLinks = [...new Set([...collectedLinks, ...message.links])]; // Store collected links
         sendResponse({ status: `${message.links.length} Links stored in background collectedLinks: ${collectedLinks.length}` });
+        chrome.runtime.sendMessage({ action: 'render', links: collectedLinks}, (response) => {
+            console.log(response);
+        });
+
     }
 });
 
